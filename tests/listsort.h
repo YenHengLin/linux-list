@@ -11,10 +11,12 @@ static void list_mergesort(struct list_head *head)
     INIT_LIST_HEAD(&list_left);
     INIT_LIST_HEAD(&list_right);
     /* split half*/
+    struct list_head *safen = NULL, *safep = NULL;
     struct list_head *next = head->next;
     struct list_head *prev = head->prev;
     bool visit_all = false;
-    for (; next != prev; next = next->next, prev = prev->prev) {
+    for (safen = next->next, safep = prev->prev; next != prev;
+         next = safen, prev = safep, safen = safen->next, safep = safep->prev) {
         list_move_tail(next, &list_left);
         list_move_tail(prev, &list_right);
         if (next->next == prev) {
